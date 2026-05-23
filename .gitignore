@@ -4,8 +4,6 @@ app/bin/
 asm/bin/
 
 # Keep template directories, ignore their contents
-interface/*
-!interface/.gitkeep
 lib/*
 !lib/.gitkeep
 
