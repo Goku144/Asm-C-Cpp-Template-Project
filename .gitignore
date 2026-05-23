@@ -1,0 +1,29 @@
+# Build output
+app/build/
+app/bin/
+asm/bin/
+lib/
+
+# Compiled objects and binaries
+*.o
+*.obj
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+
+# Debug files
+*.dSYM/
+*.su
+*.gcda
+*.gcno
+*.gcov
+
+# Editor and OS noise
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
