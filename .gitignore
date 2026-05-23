@@ -2,7 +2,12 @@
 app/build/
 app/bin/
 asm/bin/
-lib/
+
+# Keep template directories, ignore their contents
+interface/*
+!interface/.gitkeep
+lib/*
+!lib/.gitkeep
 
 # Compiled objects and binaries
 *.o
