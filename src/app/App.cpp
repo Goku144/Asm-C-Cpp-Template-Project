@@ -1,5 +1,6 @@
 // The assembly function is exported from asm/src/Hello.asm.
 // extern "C" keeps the symbol name simple so the linker can find asm_hello.
+#include "App.hpp"
 extern "C" void asm_hello(void);
 
 

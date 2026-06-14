@@ -1,27 +1,22 @@
-# MIT License
-#
-# Copyright (c) 2026 Orion
-#
-
 prog := app
 
 CXX     := g++
 CXXFlag := -O3
-CXXInc  := -Iinterface -Iapp/inc
+CXXInc  := -Iinterface/ -Iinterface/App
 CXXLib  :=
 
 ASM     := nasm
 ASMFlag := -f elf64 -F dwarf
-ASMInc  := -Iasm/inc/
+ASMInc  := -Iinterface/Asm
 ASMLib  :=
 
-appSrc  := $(shell find app/src/ -name "*.cpp")
-appObj  := $(patsubst app/src/%.cpp,app/bin/%.o,$(appSrc))
+appSrc  := $(shell find src/app/ -name "*.cpp")
+appObj  := $(patsubst src/app/%.cpp,target/bin/app/%.o,$(appSrc))
 appPair := $(join $(patsubst %,%:,$(appObj)),$(appSrc))
 appRule := $(CXX) $(CXXFlag) $(CXXInc) -c $$^ $(CXXLib) -o $$@
 
-asmSrc  := $(shell find asm/src/ -name "*.asm")
-asmObj  := $(patsubst asm/src/%.asm,asm/bin/%.o,$(asmSrc))
+asmSrc  := $(shell find src/asm/ -name "*.asm")
+asmObj  := $(patsubst src/asm/%.asm,target/bin/asm/%.o,$(asmSrc))
 asmPair := $(join $(patsubst %,%:,$(asmObj)),$(asmSrc))
 asmRule := $(ASM) $(ASMFlag) $(ASMInc) $$^ $(ASMLib) -o $$@
 
@@ -34,7 +29,7 @@ ldFlag := $(foreach Dir, $(dir $(patsubst class/%.cpp,lib/%.cpp,$(classSrc))),-L
 ldLib  := $(foreach name, $(notdir $(classSrc)),-l$(basename $(name)))
 
 progSrc  := $(appObj) $(asmObj) $(classObj)
-progObj  := app/build/$(prog)
+progObj  := target/build/app/$(prog)
 progPair := $(join $(patsubst %,%:,$(progObj)),$(progSrc))
 progRule := $(CXX) $(CXXFlag) $$^ $(ldFlag) $(ldLib) $(CXXLib) -o $$@
 
@@ -55,7 +50,7 @@ endef
 all: lib asm app prog
 
 prog: $(progObj)
-	@sudo install -m 755 app/build/$(prog) /usr/local/bin/$(prog)
+	@sudo install -m 755 target/build/app/$(prog) /usr/local/bin/$(prog)
 
 $(call objEval,$(progPair),prog)
 
@@ -72,6 +67,6 @@ lib: $(classObj)
 $(call objLoop,class)
 
 clean:
-	sudo rm -rf app/build app/bin asm/bin lib/* /usr/local/bin/$(prog)
+	sudo rm -rf target lib/* /usr/local/bin/$(prog)
 
 .PHONY: all lib app prog clean
