@@ -1,0 +1,1 @@
+extern "C" void print_str(const char *str, unsigned long size);
