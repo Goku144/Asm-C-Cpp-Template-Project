@@ -4,9 +4,9 @@
       "name": "Linux",
       "includePath": [
         "${workspaceFolder}/**",
-        "${workspaceFolder}/interface/App",
-        "${workspaceFolder}/interface/Asm",
-        "${workspaceFolder}/interface",
+        "${workspaceFolder}/interface/src/APP",
+        "${workspaceFolder}/interface/src/ASM",
+        "${workspaceFolder}/interface/",
         "/usr/include",
         "/usr/include/c++/13"
       ],

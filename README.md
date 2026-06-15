@@ -2,24 +2,28 @@
 
 A small Linux template for mixing C++ and NASM assembly in one project.
 
-The example starts in `app/src/App.cpp`, calls the assembly function
-`asm_hello`, and the NASM file `asm/src/Hello.asm` prints:
+The example starts in `project/src/app/App.cpp`, calls the assembly function
+`print_str`, and the NASM file `project/src/asm/PrintStr.asm` prints:
 
 ```text
-Hello from NASM
+Hello World!
 ```
 
 ## Project Layout
 
 ```text
-app/src/      C++ source files
-asm/src/      NASM assembly source files
-app/build/    Final executable output
-app/bin/      C++ object files
-asm/bin/      Assembly object files
-interface/    Shared headers for larger projects
-class/        Optional shared-library source folder
-lib/          Built shared libraries
+Makefile              Build rules
+project/src/app/      C++ application sources
+project/src/asm/      NASM assembly sources
+project/class/        Optional shared-library C++ sources
+interface/src/app/    C++ headers
+interface/src/asm/    NASM include files
+interface/class/      Optional shared-library headers
+target/bin/app/       C++ object output
+target/bin/asm/       Assembly object output
+target/lib/           Built shared libraries
+target/build/prog     Linked executable
+.vscode/              Tracked VS Code project settings
 ```
 
 ## Requirements
@@ -27,6 +31,7 @@ lib/          Built shared libraries
 - `make`
 - `g++`
 - `nasm`
+- `sudo` for installing the built program
 - `gdb`
 - VS Code with the C/C++ extension for debugging
 
@@ -36,30 +41,25 @@ lib/          Built shared libraries
 make
 ```
 
-The executable is created at:
+The executable is linked at:
 
 ```text
-app/build/app
+target/build/prog
 ```
+
+The default `make` target also installs it to `/usr/local/bin/prog`.
 
 ## Run
 
 ```bash
-./app/build/app
+./target/build/prog
 ```
 
-## Debug In VS Code
+After installation, it can also be run as:
 
-This template includes VS Code launch configs:
-
-- `Debug asm`: builds with NASM DWARF debug info and starts GDB
-- `Debug app`: builds the C++ app with debug symbols
-
-Open `asm/src/Hello.asm`, set a breakpoint, then press `F5` and choose
-`Debug asm`.
-
-The workspace setting `debug.allowBreakpointsEverywhere` is enabled so VS Code
-can place breakpoints inside `.asm` files.
+```bash
+prog
+```
 
 ## Clean
 

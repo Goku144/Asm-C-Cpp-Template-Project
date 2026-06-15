@@ -1,14 +1,7 @@
 # Build output
-app/build/
-app/bin/
-asm/bin/
-
-# Keep template directories, ignore their contents
-lib/*
-!lib/.gitkeep
+target/
 
 # Compiled objects and binaries
-target/**
 *.o
 *.obj
 *.a
@@ -31,3 +24,7 @@ target/**
 *~
 .DS_Store
 Thumbs.db
+
+# VS Code project settings are part of this template.
+!.vscode/
+!.vscode/**
