@@ -2,6 +2,7 @@ progName := prog
 appName  := app
 asmName  := asm
 libName  := lib
+objBase  := target
 
 CXX     := g++
 CXXFlag := -O3
@@ -15,26 +16,26 @@ ASMLib  :=
 
 appBase := project/src/$(appName)
 appSrc  := $(shell find $(appBase)/ -name "*.cpp")
-appObj  := $(patsubst $(appBase)/%.cpp,target/bin/$(appName)/%.o,$(appSrc))
+appObj  := $(patsubst $(appBase)/%.cpp,$(objBase)/bin/$(appName)/%.o,$(appSrc))
 appPair := $(join $(patsubst %,%:,$(appObj)),$(appSrc))
 appRule := $(CXX) $(CXXFlag) $(CXXInc) -c $$^ $(CXXLib) -o $$@
 
 asmBase := project/src/$(asmName)
 asmSrc  := $(shell find $(asmBase)/ -name "*.asm")
-asmObj  := $(patsubst $(asmBase)/%.asm,target/bin/$(asmName)/%.o,$(asmSrc))
+asmObj  := $(patsubst $(asmBase)/%.asm,$(objBase)/bin/$(asmName)/%.o,$(asmSrc))
 asmPair := $(join $(patsubst %,%:,$(asmObj)),$(asmSrc))
 asmRule := $(ASM) $(ASMFlag) $(ASMInc) $$^ $(ASMLib) -o $$@
 
 classBase := project/class
 classSrc  := $(shell find $(classBase)/ -name "*.cpp")
-classObj  := $(join $(dir $(patsubst $(classBase)/%.cpp,target/$(libName)/%.cpp,$(classSrc))), $(patsubst %.cpp,lib%.so,$(notdir $(classSrc))))
+classObj  := $(join $(dir $(patsubst $(classBase)/%.cpp,$(objBase)/$(libName)/%.cpp,$(classSrc))), $(patsubst %.cpp,lib%.so,$(notdir $(classSrc))))
 classPair := $(join $(patsubst %,%:,$(classObj)),$(classSrc))
 classRule := $(CXX) $(CXXFlag) $(CXXInc) -fPIC -shared $$^ $(CXXLib) -o $$@
 
-ldFlag := $(foreach Dir, $(dir $(patsubst $(classBase)/%.cpp,target/$(libName)/%.cpp,$(classSrc))),-L$(Dir) -Wl,-rpath,$(Dir))
+ldFlag := $(foreach Dir, $(dir $(patsubst $(classBase)/%.cpp,$(objBase)/$(libName)/%.cpp,$(classSrc))),-L$(Dir) -Wl,-rpath,$(Dir))
 ldLib  := $(foreach name, $(notdir $(classSrc)),-l$(basename $(name)))
 
-progBase := target/build
+progBase := $(objBase)/build
 progSrc  := $(appObj) $(asmObj) $(classObj)
 progObj  := $(progBase)/$(progName)
 progPair := $(join $(patsubst %,%:,$(progObj)),$(progSrc))
